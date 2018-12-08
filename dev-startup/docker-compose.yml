@@ -12,10 +12,6 @@ services:
     image: wordpress:latest
     deploy:
       replicas: 1
-      resources:
-        limits:
-          cpus: "0.1"
-          memory: 50M
       restart_policy:
         condition: on-failure
     environment:
