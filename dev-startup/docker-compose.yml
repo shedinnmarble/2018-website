@@ -1,35 +1,51 @@
-version: '3.3'
-
+version: "3"
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-
-  whoami:
-    image: jwilder/whoami
+  web:
+    depends_on:
+      - mysql
+    # replace username/repo:tag with your name and image details
+    image: wordpress:latest
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
     environment:
-      - VIRTUAL_HOST=whoami.local
-   db:
-     image: mysql:5.7
-     volumes:
-       - db_data:/var/lib/mysql
-     restart: always
-     environment:
-       MYSQL_ROOT_PASSWORD: somewordpress
-       MYSQL_DATABASE: wordpress
-       MYSQL_USER: wordpress
-       MYSQL_PASSWORD: wordpress
-
-   wordpress:
-     depends_on:
-       - db
-     image: wordpress:latest
-     restart: always
-     environment:
-       WORDPRESS_DB_HOST: db:3306
-       WORDPRESS_DB_USER: wordpress
-       WORDPRESS_DB_PASSWORD: wordpress
-       VIRTUAL_HOST: ondemand.deweixiang.com
+      VIRTUAL_HOST: ondemand.deweixiang.com
+      WORDPRESS_DB_PASSWORD: "mypass_user"
+      WORDPRESS_DB_USER: "myuser"
+      WORDPRESS_DB_NAME: "wordpressDB"
+    depends_on:
+      - mysql
+    ports:
+      - 14225:80
+    volumes:
+      - ./data/wordpress:/var/www/html
+    networks:
+      - webnet
+      - nginx-proxy
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root_password"
+      MYSQL_DATABASE: "wordpressDB"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_USER: "myuser"
+      MYSQL_PASSWORD: "mypass_user"
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+networks:
+  webnet:
+  nginx-proxy:
+    external:
+      name: nginx_proxy_default
