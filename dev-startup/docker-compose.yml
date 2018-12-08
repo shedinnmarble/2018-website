@@ -32,7 +32,6 @@ services:
       - ./data/wordpress:/var/www/html
     networks:
       - webnet
-      - nginx-proxy
   mysql:
     image: mysql
     environment:
