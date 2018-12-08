@@ -1,6 +1,12 @@
 version: "3"
 services:
-  web:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+  wordpress:
     depends_on:
       - mysql
     # replace username/repo:tag with your name and image details
@@ -44,8 +50,6 @@ services:
         constraints: [node.role == manager]
     networks:
       - webnet
+
 networks:
   webnet:
-  nginx-proxy:
-    external:
-      name: nginx_proxy_default
