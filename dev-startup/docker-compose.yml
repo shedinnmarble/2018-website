@@ -9,7 +9,6 @@ services:
   wordpress:
     depends_on:
       - mysql
-    # replace username/repo:tag with your name and image details
     image: wordpress:latest
     ports:
       - "8000:80"
