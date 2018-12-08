@@ -45,3 +45,8 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
+  notebook:
+    image: jupyter/tensorflow-notebook
+    environment:
+      VIRTUAL_HOST: deweixiang.com
+
