@@ -28,8 +28,7 @@ services:
       - mysql
     ports:
       - 14225:80
-    volumes:
-      - ./data/wordpress:/var/www/html
+    
     networks:
       - webnet
   mysql:
@@ -42,8 +41,6 @@ services:
       MYSQL_PASSWORD: "mypass_user"
     ports:
       - 3306:3306
-    volumes:
-      - ./data/mysql:/var/lib/mysql
     deploy:
       placement:
         constraints: [node.role == manager]
