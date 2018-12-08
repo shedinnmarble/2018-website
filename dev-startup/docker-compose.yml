@@ -18,7 +18,7 @@ services:
       VIRTUAL_HOST: wp.deweixiang.com
       WORDPRESS_DB_PASSWORD: "mypass_user"
       WORDPRESS_DB_USER: "myuser"
-      WORDPRESS_DB_NAME: "wordpressDB"
+      WORDPRESS_DB_NAME: "wordpressDB1"
       WORDPRESS_DB_HOST: mysql:3306
     links:
       - mysql
@@ -30,7 +30,7 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: "root_password"
-      MYSQL_DATABASE: "wordpressDB"
+      MYSQL_DATABASE: "wordpressDB1"
       MYSQL_USER: "myuser"
       MYSQL_PASSWORD: "mypass_user"
     ports:
