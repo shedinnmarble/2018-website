@@ -11,9 +11,11 @@ services:
       - mysql
     image: wordpress:latest
     deploy:
-      replicas: 1
+      replicas: 3
       restart_policy:
         condition: on-failure
+      constraints: 
+          - node.hostname==dewei
     environment:
       VIRTUAL_HOST: wp.deweixiang.com
       WORDPRESS_DB_PASSWORD: "mypass_user"
@@ -37,9 +39,9 @@ services:
       - 3306:3306
     deploy:
       placement:
-        constraints: [node.role == manager]
+        constraints: 
+          - node.role == manager
   notebook:
     image: jupyter/tensorflow-notebook
     environment:
       VIRTUAL_HOST: notebook.deweixiang.com
-
