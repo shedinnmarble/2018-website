@@ -28,6 +28,8 @@ services:
       - 80
   mysql:
     image: mysql:5.7
+    volumes:
+       - db_data:/var/lib/mysql
     environment:
       VIRTUAL_HOST: mysql.deweixiang.com
       MYSQL_ROOT_PASSWORD: "root_password"
@@ -46,3 +48,5 @@ services:
     deploy:
       placement:
         constraints: [node.role==node]
+volumes:
+    db_data:
