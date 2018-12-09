@@ -19,7 +19,7 @@ services:
       WORDPRESS_DB_PASSWORD: "mypass_user"
       WORDPRESS_DB_USER: "myuser"
       WORDPRESS_DB_NAME: "wordpressDB1"
-      WORDPRESS_DB_HOST: "52.9.134.119:3306"
+      WORDPRESS_DB_HOST: mysql:3306
     links:
       - mysql
     depends_on:
@@ -29,6 +29,7 @@ services:
   mysql:
     image: mysql:5.7
     environment:
+      VIRTUAL_HOST: mysql.deweixiang.com
       MYSQL_ROOT_PASSWORD: "root_password"
       MYSQL_DATABASE: "wordpressDB1"
       MYSQL_USER: "myuser"
@@ -37,7 +38,7 @@ services:
       - 3306:3306
     deploy:
       placement:
-        constraints: [node.role == manager]
+        constraints: [node.hostname==dewei]
   notebook:
     image: jupyter/tensorflow-notebook
     environment:
