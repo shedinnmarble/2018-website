@@ -50,6 +50,3 @@ services:
         constraints: [node.role != manager]
 volumes:
     db_data:
-    work:
-    external:
-      name: ${WORK_VOLUME}
