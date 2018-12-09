@@ -12,7 +12,8 @@ services:
     image: wordpress:latest
     deploy:
       replicas: 3
-      constraints: [node.hostname==dewei]
+      placement:
+        constraints: [node.hostname==dewei]
     environment:
       VIRTUAL_HOST: wp.deweixiang.com
       WORDPRESS_DB_PASSWORD: "mypass_user"
