@@ -47,6 +47,6 @@ services:
       VIRTUAL_HOST: notebook.deweixiang.com
     deploy:
       placement:
-        constraints: [node.role==node]
+        constraints: [node.role!=manager]
 volumes:
     db_data:
