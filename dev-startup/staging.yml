@@ -58,9 +58,9 @@ services:
     # replace username/repo:tag with your name and image details
     image: microsoft/dotnet-samples:aspnetapp
     deploy:
-      replicas: 1
+      replicas: 5
       placement:
-        constraints: [node.role == manager]
+        constraints: []
     environment:
       VIRTUAL_HOST: web.deweixiang.com
     ports:
