@@ -1,0 +1,96 @@
+version: "3"
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+  wordpress:
+    depends_on:
+      - mysql
+    image: wordpress:latest
+    deploy:
+      replicas: 3
+      placement:
+        constraints: []
+    environment:
+      VIRTUAL_HOST: wp.deweixiang.com
+      WORDPRESS_DB_PASSWORD: "mypass_user"
+      WORDPRESS_DB_USER: "myuser"
+      WORDPRESS_DB_NAME: "wordpressDB1"
+      WORDPRESS_DB_HOST: mysql:3306
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    ports:
+      - 80
+  mysql:
+    image: mysql:5.7
+    volumes:
+       - db_data:/var/lib/mysql
+    environment:
+      VIRTUAL_HOST: mysql.deweixiang.com
+      MYSQL_ROOT_PASSWORD: "root_password"
+      MYSQL_DATABASE: "wordpressDB1"
+      MYSQL_USER: "myuser"
+      MYSQL_PASSWORD: "mypass_user"
+    ports:
+      - 3306:3306
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  notebook:
+    image: jupyter/tensorflow-notebook
+    environment:
+      VIRTUAL_HOST: git.deweixiang.com
+    deploy:
+      placement:
+        constraints: [node.role != manager]
+  web:
+    # replace username/repo:tag with your name and image details
+    image: username/repo:tag
+    deploy:
+      replicas: 5
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+    environment:
+      VIRTUAL_HOST: status.deweixiang.com
+    ports:
+      - "80"
+    networks:
+      - webnet
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080"
+    environment:
+      VIRTUAL_HOST: status.deweixiang.com
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "/home/docker/data:/data"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    command: redis-server --appendonly yes
+    networks:
+      - webnet
+networks:
+  webnet:
+volumes:
+    db_data:
