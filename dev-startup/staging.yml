@@ -56,7 +56,7 @@ services:
       - webnet
   web:
     # replace username/repo:tag with your name and image details
-    image: microsoft/dotnet-samples
+    image: microsoft/dotnet-samples:aspnetapp
     deploy:
       replicas: 5
       placement:
