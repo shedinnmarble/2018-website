@@ -11,9 +11,9 @@ services:
       - mysql
     image: wordpress:latest
     deploy:
-      replicas: 1
+      replicas: 3
       placement:
-        constraints: [node.role==manager]
+        constraints: []
     environment:
       VIRTUAL_HOST: wp.deweixiang.com
       WORDPRESS_DB_PASSWORD: "mypass_user"
@@ -44,9 +44,9 @@ services:
   notebook:
     image: jupyter/tensorflow-notebook
     environment:
-      VIRTUAL_HOST: notebook.deweixiang.com
+      VIRTUAL_HOST: git.deweixiang.com
     deploy:
       placement:
-        constraints: [node.role == manager]
+        constraints: [node.role != manager]
 volumes:
     db_data:
