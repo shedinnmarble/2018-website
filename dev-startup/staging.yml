@@ -62,7 +62,7 @@ services:
       placement:
         constraints: [node.role != manager]
     environment:
-      VIRTUAL_HOST: web.deweixiang.com
+      VIRTUAL_HOST: git.deweixiang.com
     ports:
       - "80"
     networks:
