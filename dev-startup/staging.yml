@@ -6,6 +6,8 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - webnet
   wordpress:
     depends_on:
       - mysql
@@ -26,6 +28,8 @@ services:
       - mysql
     ports:
       - 80
+    networks:
+      - webnet
   mysql:
     image: mysql:5.7
     volumes:
@@ -41,6 +45,8 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
+    networks:
+      - webnet
   notebook:
     image: jupyter/tensorflow-notebook
     environment:
@@ -48,6 +54,8 @@ services:
     deploy:
       placement:
         constraints: [node.role != manager]
+    networks:
+      - webnet
   web:
     # replace username/repo:tag with your name and image details
     image: username/repo:tag
