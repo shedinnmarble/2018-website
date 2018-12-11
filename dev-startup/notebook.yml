@@ -1,0 +1,21 @@
+version: "3"
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+  notebook:
+    image: jupyter/tensorflow-notebook
+    environment:
+      VIRTUAL_HOST: notebook.deweixiang.com
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+  
+
+networks:
+  webnet:
