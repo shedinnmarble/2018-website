@@ -10,6 +10,8 @@ services:
     image: jupyter/tensorflow-notebook
     environment:
       VIRTUAL_HOST: notebook.deweixiang.com
+    ports:
+      - "8088:80"
     deploy:
       placement:
         constraints: [node.role == manager]
