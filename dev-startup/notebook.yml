@@ -6,12 +6,23 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-  notebook:
-    image: jupyter/tensorflow-notebook
+  # notebook:
+  #   image: jupyter/tensorflow-notebook
+  #   environment:
+  #     VIRTUAL_HOST: notebook.deweixiang.com
+  #   ports:
+  #     - "8888:8888"
+  #   deploy:
+  #     placement:
+  #       constraints: [node.role == manager]
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080"
     environment:
       VIRTUAL_HOST: notebook.deweixiang.com
-    ports:
-      - "8888:8888"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
     deploy:
       placement:
         constraints: [node.role == manager]
