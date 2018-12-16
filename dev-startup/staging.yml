@@ -49,28 +49,6 @@ services:
         constraints: [node.role == manager]
     networks:
       - webnet
-  # notebook:
-  #   image: jupyter/tensorflow-notebook
-  #   environment:
-  #     VIRTUAL_HOST: notebook.deweixiang.com
-  #   deploy:
-  #     placement:
-  #       constraints: [node.role == manager]
-  #   networks:
-  #     - webnet
-  # web:
-  #   # replace username/repo:tag with your name and image details
-  #   image: microsoft/dotnet-samples:aspnetapp
-  #   deploy:
-  #     replicas: 1
-  #     placement:
-  #       constraints: [node.role == manager]
-  #   environment:
-  #     VIRTUAL_HOST: web.deweixiang.com
-  #   ports:
-  #     - "8080"
-  #   networks:
-  #     - webnet
   visualizer:
     image: dockersamples/visualizer:stable
     ports:
@@ -86,7 +64,34 @@ services:
         constraints: [node.role == manager]
     networks:
       - webnet
-
+  notebook:
+    image: jupyter/tensorflow-notebook
+    environment:
+      VIRTUAL_HOST: notebook.deweixiang.com
+    expose:
+      - 8083
+    ports:
+      - "8083:8888"
+    deploy:
+      placement:
+        constraints: [node.role != manager]
+    networks:
+      - webnet
+  # web:
+  #   # replace username/repo:tag with your name and image details
+  #   image: microsoft/dotnet-samples:aspnetapp
+  #   deploy:
+  #     replicas: 1
+  #     placement:
+  #       constraints: [node.role != manager]
+  #   environment:
+  #     VIRTUAL_HOST: web.deweixiang.com
+  #   expose:
+  #     - 8084
+  #   ports:
+  #     - "8084:8080"
+  #   networks:
+  #     - webnet
 networks:
   webnet:
     driver: overlay
