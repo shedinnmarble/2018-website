@@ -89,7 +89,7 @@ services:
     expose:
       - 8084
     ports:
-      - "8084:8080"
+      - "8084:80"
     networks:
       - webnet
 networks:
