@@ -15,7 +15,7 @@ services:
       placement:
         constraints: []
     environment:
-      VIRTUAL_HOST: wp.deweixiang.com
+      VIRTUAL_HOST: wp.deweixiang.com,wp.whoami.local
       WORDPRESS_DB_PASSWORD: "mypass_user"
       WORDPRESS_DB_USER: "myuser"
       WORDPRESS_DB_NAME: "wordpressDB1"
@@ -23,7 +23,9 @@ services:
     depends_on:
       - mysql
     ports:
-      - "8080"
+      - "8081:8080"
+    expose:
+      - 8081
     networks:
       - webnet
   mysql:
@@ -31,13 +33,15 @@ services:
     volumes:
        - db_data:/var/lib/mysql
     environment:
-      VIRTUAL_HOST: mysql.deweixiang.com
+      VIRTUAL_HOST: mysql.deweixiang.com,mysql.whoami.local
       MYSQL_ROOT_PASSWORD: "root_password"
       MYSQL_DATABASE: "wordpressDB1"
       MYSQL_USER: "myuser"
       MYSQL_PASSWORD: "mypass_user"
     ports:
       - 3306:3306
+    expose:
+      - 3306
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -68,9 +72,11 @@ services:
   visualizer:
     image: dockersamples/visualizer:stable
     ports:
-      - "8080"
+      - "8082:8080"
+    expose:
+      - 8082
     environment:
-      VIRTUAL_HOST: status.deweixiang.com
+      VIRTUAL_HOST: status.deweixiang.com,status.whoami.local
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     deploy:
