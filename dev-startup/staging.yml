@@ -11,7 +11,7 @@ services:
       - mysql
     image: wordpress:latest
     deploy:
-      replicas: 5
+      replicas: 1
       placement:
         constraints: []
     environment:
