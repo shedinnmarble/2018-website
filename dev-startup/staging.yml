@@ -74,7 +74,7 @@ services:
       - "8083:8888"
     deploy:
       placement:
-        constraints: [node.role != manager]
+        constraints: [node.role == manager]
     networks:
       - webnet
   web:
@@ -83,7 +83,7 @@ services:
     deploy:
       replicas: 1
       placement:
-        constraints: [node.role != manager]
+        constraints: [node.role == manager]
     environment:
       VIRTUAL_HOST: web.deweixiang.com
     expose:
