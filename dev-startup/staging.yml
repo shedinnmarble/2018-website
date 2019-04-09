@@ -17,11 +17,11 @@ services:
       placement:
         constraints: []
     environment:
-      VIRTUAL_HOST: wp.deweixiang.com,wp.whoami.local
+      VIRTUAL_HOST: mytvglobal.com
       WORDPRESS_DB_PASSWORD: "mypass_user"
       WORDPRESS_DB_USER: "myuser"
       WORDPRESS_DB_NAME: "wordpressDB1"
-      WORDPRESS_DB_HOST: mysql.deweixiang.com:3306
+      WORDPRESS_DB_HOST: mysql.whoami.local:3306
     depends_on:
       - mysql
     ports:
@@ -35,7 +35,7 @@ services:
     volumes:
        - db_data:/var/lib/mysql
     environment:
-      VIRTUAL_HOST: mysql.deweixiang.com,mysql.whoami.local
+      VIRTUAL_HOST: mysql.whoami.local
       MYSQL_ROOT_PASSWORD: "root_password"
       MYSQL_DATABASE: "wordpressDB1"
       MYSQL_USER: "myuser"
@@ -46,52 +46,10 @@ services:
       - 3306
     deploy:
       placement:
-        constraints: [node.role == manager]
+        constraints: []
     networks:
       - webnet
-  visualizer:
-    image: dockersamples/visualizer:stable
-    ports:
-      - "8082:8080"
-    expose:
-      - 8082
-    environment:
-      VIRTUAL_HOST: status.deweixiang.com,status.whoami.local
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    networks:
-      - webnet
-  notebook:
-    image: jupyter/tensorflow-notebook
-    environment:
-      VIRTUAL_HOST: notebook.deweixiang.com
-    expose:
-      - 8083
-    ports:
-      - "8083:8888"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    networks:
-      - webnet
-  web:
-    # replace username/repo:tag with your name and image details
-    image: microsoft/dotnet-samples:aspnetapp
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
-    environment:
-      VIRTUAL_HOST: web.deweixiang.com
-    expose:
-      - 8084
-    ports:
-      - "8084:80"
-    networks:
-      - webnet
+  
 networks:
   webnet:
     driver: overlay
