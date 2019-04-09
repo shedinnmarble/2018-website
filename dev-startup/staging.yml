@@ -17,11 +17,11 @@ services:
       placement:
         constraints: []
     environment:
-      VIRTUAL_HOST: mytvglobal.com
+      VIRTUAL_HOST: www.mytvglobal.com,mytvglobal.com
       WORDPRESS_DB_PASSWORD: "mypass_user"
       WORDPRESS_DB_USER: "myuser"
       WORDPRESS_DB_NAME: "wordpressDB1"
-      WORDPRESS_DB_HOST: mysql.whoami.local:3306
+      WORDPRESS_DB_HOST: mysql:3306
     depends_on:
       - mysql
     ports:
@@ -35,7 +35,6 @@ services:
     volumes:
        - db_data:/var/lib/mysql
     environment:
-      VIRTUAL_HOST: mysql.whoami.local
       MYSQL_ROOT_PASSWORD: "root_password"
       MYSQL_DATABASE: "wordpressDB1"
       MYSQL_USER: "myuser"
