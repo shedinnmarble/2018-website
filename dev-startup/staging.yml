@@ -30,6 +30,30 @@ services:
       - 8081
     networks:
       - webnet
+  wordpress2:
+    depends_on:
+      - mysql
+    image: wordpress:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints: []
+    environment:
+      VIRTUAL_HOST: www.deweixiang.com,deweixiang.com
+      WORDPRESS_DB_PASSWORD: "root_password"
+      WORDPRESS_DB_USER: "root"
+      WORDPRESS_DB_NAME: "wp_dewei"
+      WORDPRESS_DB_HOST: mysql:3306
+    depends_on:
+      - mysql
+    ports:
+      - "8081:8080"
+    expose:
+      - 8081
+    networks:
+      - webnet
+      
+
   mysql:
     image: mysql:5.7
     volumes:
